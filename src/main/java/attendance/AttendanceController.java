@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class AttendanceController {
@@ -116,6 +117,12 @@ public class AttendanceController {
                     String[] timeTokens = time.split(":");
                     int hour1 = Integer.parseInt(timeTokens[0]);
                     int minute1 = Integer.parseInt(timeTokens[1]);
+                    if (hour1 > 24 || hour1 < 0) {
+                        throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+                    }
+                    else if (minute1 > 59 || minute1 < 0) {
+                        throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+                    }
                     String status = decideStatus(date.getDayOfWeek().getValue(), hour1, minute1);
                     Attendance attendance = new Attendance(name, date, time, status);
                     System.out.println();
@@ -239,7 +246,10 @@ public class AttendanceController {
                 if (selectedNumber.equals("Q")) {
                     return;
                 }
-            } catch (Exception e) {
+            } catch (NoSuchElementException e) {
+                return;
+            }
+            catch (Exception e) {
                 throw new IllegalArgumentException(e.getMessage());
             }
         }
