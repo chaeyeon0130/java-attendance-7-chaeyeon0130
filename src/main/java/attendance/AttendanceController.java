@@ -47,14 +47,14 @@ public class AttendanceController {
         boolean start = true;
         while (true) {
             try {
-//                LocalDate date = DateTimes.now().toLocalDate();
+                date = DateTimes.now().toLocalDate();
                 if (start) {
                     start = false;
                 }
                 else {
                     System.out.println();
                 }
-                date = LocalDate.of(2024, 12, 13);
+//                date = LocalDate.of(2024, 12, 13);
                 DayOfWeek dayOfWeek = date.getDayOfWeek();
                 System.out.printf("오늘은 %s월 %s일 %s입니다. 기능을 선택해 주세요.%n", date.getMonthValue(), date.getDayOfMonth(),
                         dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN));
