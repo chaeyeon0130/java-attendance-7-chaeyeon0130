@@ -10,4 +10,8 @@ public enum AttendanceStatus {
     private AttendanceStatus(String name) {
         this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
 }
