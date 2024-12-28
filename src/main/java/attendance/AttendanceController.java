@@ -29,13 +29,13 @@ public class AttendanceController {
             outputView.printAttendanceResult(time, status);
         }
         else if (input.equals("2")) {
-            attendanceService.checkWeekendOrHoliday(DateTimes.now());
             outputView.printNicknameInputWord();
             String nickname = inputView.inputNickname();
             attendanceService.checkNicknameRegistration(nickname);
             outputView.printUpdatedAttendanceDateWord();
             LocalDateTime time = inputView.inputUpdatedAttendanceDate();
             attendanceService.checkIfUpdatedAttendanceDateIsFuture(time);
+            attendanceService.checkWeekendOrHoliday(time);
             outputView.printUpdatedAttendanceTimeWord();
             time = inputView.inputUpdatedAttendanceTime(time);
             attendanceService.checkCampusOperationTime(time);
