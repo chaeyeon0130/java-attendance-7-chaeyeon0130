@@ -33,6 +33,24 @@ public class AttendanceService {
         attendances.add(attendance);
     }
 
+    public List<Attendance> updateAttendance(String nickname, LocalDateTime attendanceTime, AttendanceStatus status) {
+        // 업데이트 이전 정보 저장
+        // TODO : 등교하지 않아 결석인 경우도 새롭게 업데이트? -> ex) 12월 03일 화요일 (결석) -> 09:58 (출석) 수정 완료!
+        Attendance priorAttendance;
+        List<Attendance> updatedResult = new ArrayList<>();
+        for (Attendance attendance : attendances) {
+            if (attendance.nickname.equals(nickname) && attendance.time.toLocalDate().equals(attendanceTime.toLocalDate())) {
+                priorAttendance = new Attendance(attendance.nickname, attendance.time, attendance.status);
+                attendance.time = attendanceTime;
+                attendance.status = status;
+                updatedResult.add(priorAttendance);
+                updatedResult.add(attendance);
+                break;
+            }
+        }
+        return updatedResult;
+    }
+
     public AttendanceStatus decideAttendanceStatus(LocalDateTime time) {
         // 전제
             // 주말 또는 공휴일이 아님
@@ -97,6 +115,12 @@ public class AttendanceService {
             if (attendance.nickname.equals(nickname) && attendance.time.equals(time)) {
                 throw new IllegalArgumentException("[ERROR] 이미 출석을 확인하였습니다. 필요한 경우 수정 기능을 이용해 주세요.");
             }
+        }
+    }
+
+    public void checkIfUpdatedAttendanceDateIsFuture(LocalDateTime time) {
+        if (time.isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("[ERROR] 아직 수정할 수 없습니다.");
         }
     }
 }
